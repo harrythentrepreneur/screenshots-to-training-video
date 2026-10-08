@@ -1,0 +1,4 @@
+[SHOW: 1] Welcome to Acme Dashboard. In this short guide you'll create your first project and invite a teammate.
+[SHOW: 2] Once you're signed in, open Projects from the sidebar and click New Project in the top right.
+[SHOW: 3] Give the project a name your team will recognise, pick a template, and click Create project.
+[SHOW: 4] Finally, invite a teammate by email, choose their role, and send the invite. That's it.

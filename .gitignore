@@ -45,4 +45,18 @@ output.json
 *.tiff
 
 # Logs
-*.log 
+*.log .DS_Store
+
+# Committed media: README art, landing page, and the reproducible example
+!assets/*.png
+!assets/*.gif
+!docs/*.png
+!docs/*.gif
+!docs/*.mp4
+!examples/**/*.png
+!examples/**/*.mp4
+data/middleware/
+data/output/
+!docs/*.jpg
+!docs/fonts/*.woff2
+!examples/**/output.json

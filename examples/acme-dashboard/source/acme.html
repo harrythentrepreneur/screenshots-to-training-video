@@ -1,0 +1,118 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#16202b;--mut:#5d6b7a;--line:#e3e8ee;--bg:#f5f7fa;--card:#fff;--acc:#2f6fed;--acc2:#e8f0fe;--ok:#1e9e6a}
+html,body{width:1600px;height:1000px;overflow:hidden}
+body{font-family:'Instrument Sans',sans-serif;color:var(--ink);background:var(--bg);font-size:16px}
+.app{display:grid;grid-template-columns:248px 1fr;height:1000px}
+.side{background:#0f1a26;color:#c9d4e0;padding:26px 18px;display:flex;flex-direction:column;gap:6px}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:19px;margin:0 8px 26px}
+.logo i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#4d8bff,#2f6fed);display:grid;place-items:center;font-style:normal;font-size:16px}
+.nav{padding:11px 12px;border-radius:9px;display:flex;gap:12px;align-items:center;font-size:15.5px}
+.nav b{width:18px;height:18px;border-radius:5px;border:2px solid #5b6e83;display:inline-block}
+.nav.on{background:#1d2c3d;color:#fff}.nav.on b{border-color:#6ea0ff;background:#6ea0ff33}
+.main{display:flex;flex-direction:column}
+.top{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 36px;gap:16px}
+.search{flex:1;max-width:460px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--bg);display:flex;align-items:center;padding:0 14px;color:#93a1b0;font-size:15px}
+.sp{flex:1}
+.av{width:36px;height:36px;border-radius:50%;background:#ffd8b5;color:#9a4a10;font-weight:700;display:grid;place-items:center;font-size:14px}
+.content{padding:38px 44px;flex:1;position:relative}
+h1{font-size:30px;font-weight:700;letter-spacing:-.01em}
+.sub{color:var(--mut);margin-top:6px;font-size:16px}
+.btn{height:42px;padding:0 20px;border-radius:10px;background:var(--acc);color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:8px;font-size:15.5px;border:0}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.row{display:flex;align-items:flex-end;justify-content:space-between}
+.table{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tr{display:grid;grid-template-columns:2.2fr 1.2fr 1fr 1fr;padding:17px 24px;border-top:1px solid var(--line);align-items:center;font-size:15.5px}
+.tr:first-child{border-top:0;background:#fafbfd;color:var(--mut);font-size:13.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.pn{display:flex;align-items:center;gap:12px;font-weight:600}
+.dot{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:14px;font-weight:700}
+.pill{display:inline-block;padding:4px 11px;border-radius:99px;font-size:13.5px;font-weight:600}
+.p-ok{background:#e3f6ee;color:#16784f}.p-draft{background:#fff3dc;color:#94600a}.p-new{background:var(--acc2);color:var(--acc)}
+.faces{display:flex}.faces span{width:28px;height:28px;border-radius:50%;border:2px solid #fff;margin-left:-8px;display:grid;place-items:center;font-size:11px;font-weight:700}
+.faces span:first-child{margin-left:0}
+.ring{box-shadow:0 0 0 4px #2f6fed55,0 0 0 9px #2f6fed1f}
+.cursor{position:absolute;width:26px;height:26px}
+.scrim{position:absolute;inset:0;background:#0f1a2666;display:grid;place-items:center}
+.modal{width:600px;background:#fff;border-radius:18px;box-shadow:0 30px 80px #0f1a2655;padding:32px 34px}
+.modal h2{font-size:23px}
+label{display:block;font-weight:600;font-size:14.5px;margin:22px 0 8px}
+.inp{height:46px;border:1px solid var(--line);border-radius:10px;padding:0 14px;display:flex;align-items:center;font-size:16px}
+.inp.focus{border-color:var(--acc);box-shadow:0 0 0 4px #2f6fed22}
+.caret{display:inline-block;width:2px;height:20px;background:var(--acc);margin-left:1px}
+.chips{display:flex;gap:10px;margin-top:4px}
+.chip{padding:9px 14px;border:1px solid var(--line);border-radius:10px;font-size:14.5px}
+.chip.on{border-color:var(--acc);background:var(--acc2);color:var(--acc);font-weight:600}
+.foot{display:flex;justify-content:flex-end;gap:12px;margin-top:28px}
+/* sign in */
+.signin{height:1000px;display:grid;grid-template-columns:1fr 1fr}
+.brandside{background:radial-gradient(120% 90% at 0% 0%,#2f6fed 0%,#173f95 55%,#0f1a26 100%);color:#fff;padding:64px;display:flex;flex-direction:column;justify-content:space-between}
+.brandside h2{font-size:44px;line-height:1.1;letter-spacing:-.02em;max-width:520px}
+.brandside p{color:#c8d8ff;font-size:18px;margin-top:16px;max-width:480px}
+.form{display:grid;place-items:center;background:#fff}
+.form .box{width:420px}
+.form h1{font-size:32px}
+.sso{margin-top:22px;height:46px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:600;gap:10px}
+.or{display:flex;align-items:center;gap:12px;color:#93a1b0;font-size:14px;margin:22px 0 0}.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+.toast{position:absolute;right:44px;top:24px;background:#0f1a26;color:#fff;border-radius:12px;padding:14px 18px;display:flex;gap:12px;align-items:center;font-weight:600;box-shadow:0 14px 40px #0f1a2640}
+.toast i{width:22px;height:22px;border-radius:50%;background:var(--ok);display:grid;place-items:center;font-style:normal;font-size:13px}
+.member{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.member:first-of-type{border-top:0}
+.member .av{width:34px;height:34px}
+.member div{flex:1}.member small{display:block;color:var(--mut);font-size:13.5px}
+</style></head>
+<body>
+<div id="root"></div>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="cur" viewBox="0 0 24 24"><path d="M4 2l15 11-6.5 1.2L16 21l-3 1.4-3.5-6.9L4 20z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></symbol></defs></svg>
+<script>
+const n = +(new URLSearchParams(location.search).get('screen')||1);
+const side = (active) => `<aside class="side"><div class="logo"><i>A</i>Acme Dashboard</div>
+${['Home','Projects','Reports','Team','Settings'].map(x=>`<div class="nav ${x===active?'on':''}"><b></b>${x}</div>`).join('')}</aside>`;
+const topbar = `<div class="top"><div class="search">Search projects, people, files</div><div class="sp"></div><button class="btn ghost">Help</button><div class="av">MC</div></div>`;
+const rows = (extra) => `<div class="table">
+<div class="tr"><div>Project</div><div>Owner</div><div>Status</div><div>Members</div></div>
+${extra||''}
+<div class="tr"><div class="pn"><span class="dot" style="background:#7c5cff">W</span>Website refresh</div><div>Maya Chen</div><div><span class="pill p-ok">Active</span></div><div class="faces"><span style="background:#ffd8b5">MC</span><span style="background:#cfe3ff">SO</span><span style="background:#d9f2e4">PR</span></div></div>
+<div class="tr"><div class="pn"><span class="dot" style="background:#f08c2e">S</span>Spring launch plan</div><div>Sam Ortiz</div><div><span class="pill p-draft">Draft</span></div><div class="faces"><span style="background:#cfe3ff">SO</span><span style="background:#ffd8b5">MC</span></div></div>
+<div class="tr"><div class="pn"><span class="dot" style="background:#1e9e6a">C</span>Customer survey</div><div>Priya Rao</div><div><span class="pill p-ok">Active</span></div><div class="faces"><span style="background:#d9f2e4">PR</span></div></div>
+<div class="tr"><div class="pn"><span class="dot" style="background:#e0457b">H</span>Help centre rewrite</div><div>Maya Chen</div><div><span class="pill p-ok">Active</span></div><div class="faces"><span style="background:#ffd8b5">MC</span><span style="background:#ffe1ea">LT</span></div></div>
+</div>`;
+const header = (btnRing) => `<div class="row"><div><h1>Projects</h1><div class="sub">Everything your team is working on, in one place.</div></div>
+<button class="btn ${btnRing?'ring':''}">+ New Project</button></div>`;
+const cursor = (x,y) => `<svg class="cursor" style="left:${x}px;top:${y}px"><use href="#cur"/></svg>`;
+let html='';
+if(n===1){
+ html=`<div class="signin"><div class="brandside"><div class="logo" style="margin:0"><i>A</i>Acme Dashboard</div>
+ <div><h2>Plan, track and ship projects with your whole team.</h2><p>Sign in to pick up where you left off.</p></div><div style="color:#9fb6e8;font-size:14px">acme.example</div></div>
+ <div class="form"><div class="box"><h1>Welcome back</h1><div class="sub">Sign in to your Acme workspace</div>
+ <div class="sso">Continue with single sign-on</div><div class="or">or</div>
+ <label>Work email</label><div class="inp">maya@acme.example</div>
+ <label>Password</label><div class="inp focus">••••••••••<span class="caret"></span></div>
+ <button class="btn ring" style="width:100%;justify-content:center;margin-top:26px;height:48px">Sign in</button>
+ <div class="sub" style="text-align:center;margin-top:18px;font-size:14.5px">Forgot your password?</div></div></div>
+ <div style="position:absolute;left:1180px;top:735px">${cursor(0,0)}</div></div>`;
+}else if(n===2){
+ html=`<div class="app">${side('Projects')}<div class="main">${topbar}<div class="content">${header(true)}${rows()}${cursor(1490,128)}</div></div></div>`;
+}else if(n===3){
+ html=`<div class="app">${side('Projects')}<div class="main">${topbar}<div class="content">${header(false)}${rows()}</div></div></div>
+ <div class="scrim"><div class="modal"><h2>New project</h2><div class="sub">Give it a name your team will recognise.</div>
+ <label>Project name</label><div class="inp focus">Q4 Onboarding<span class="caret"></span></div>
+ <label>Template</label><div class="chips"><div class="chip on">Blank</div><div class="chip">Product launch</div><div class="chip">Team onboarding</div></div>
+ <label>Visibility</label><div class="chips"><div class="chip on">Team</div><div class="chip">Private</div></div>
+ <div class="foot"><button class="btn ghost">Cancel</button><button class="btn ring">Create project</button></div></div></div>`;
+}else{
+ const newrow=`<div class="tr" style="background:#f4f8ff"><div class="pn"><span class="dot" style="background:#2f6fed">Q</span>Q4 Onboarding</div><div>Maya Chen</div><div><span class="pill p-new">New</span></div><div class="faces"><span style="background:#ffd8b5">MC</span></div></div>`;
+ html=`<div class="app">${side('Projects')}<div class="main">${topbar}<div class="content">${header(false)}${rows(newrow)}
+ <div class="toast"><i>✓</i>Project "Q4 Onboarding" created</div></div></div></div>
+ <div class="scrim"><div class="modal"><h2>Invite a teammate</h2><div class="sub">They'll get an email with a link to Q4 Onboarding.</div>
+ <label>Email address</label><div class="inp focus">sam@acme.example<span class="caret"></span></div>
+ <label>Role</label><div class="chips"><div class="chip on">Editor</div><div class="chip">Viewer</div><div class="chip">Admin</div></div>
+ <label style="margin-top:24px">Already in this project</label>
+ <div class="member"><span class="av">MC</span><div>Maya Chen<small>maya@acme.example</small></div><span class="pill p-new">Owner</span></div>
+ <div class="foot"><button class="btn ghost">Skip for now</button><button class="btn ring">Send invite</button></div></div></div>`;
+}
+document.getElementById('root').innerHTML=html;
+</script></body></html>

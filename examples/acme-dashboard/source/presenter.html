@@ -1,0 +1,47 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:#101418}
+.stage{position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 45%,#2a1d19 0%,#14181d 60%,#101418 100%)}
+svg{position:absolute;left:280px;top:0}
+</style></head><body><div class="stage"></div>
+<svg id="s" width="720" height="720" viewBox="0 0 720 720"></svg>
+<script>
+const t = +(new URLSearchParams(location.search).get('t')||0); // 0..1 loop phase
+const TAU=Math.PI*2;
+// mouth openness: blend of sines, loops cleanly over t in [0,1)
+const m = Math.max(0, 0.55+0.45*Math.sin(TAU*4*t)*Math.sin(TAU*1*t+0.6));
+const blink = (t>0.62 && t<0.66) ? 0.15 : 1;
+const nod = 4*Math.sin(TAU*t);
+let bars='';
+for(let i=0;i<28;i++){
+  const a = (i/28)*TAU - Math.PI/2;
+  const h = 14 + 26*Math.abs(Math.sin(TAU*(2*t)+i*0.9))*m;
+  const r1=300, r2=r1+h;
+  bars+=`<line x1="${360+r1*Math.cos(a)}" y1="${360+r1*Math.sin(a)}" x2="${360+r2*Math.cos(a)}" y2="${360+r2*Math.sin(a)}" stroke="#FF5B3A" stroke-opacity="${0.35+0.5*m}" stroke-width="8" stroke-linecap="round"/>`;
+}
+document.getElementById('s').innerHTML = `
+<defs>
+ <radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#FFB27A"/><stop offset=".55" stop-color="#FF7A4F"/><stop offset="1" stop-color="#E2492A"/></radialGradient>
+ <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B2430"/><stop offset="1" stop-color="#0E1319"/></linearGradient>
+ <clipPath id="c"><circle cx="360" cy="360" r="280"/></clipPath>
+</defs>
+${bars}
+<circle cx="360" cy="360" r="280" fill="url(#bg)"/>
+<g clip-path="url(#c)">
+ <g transform="translate(0,${nod})">
+  <path d="M150 720 C150 560 240 500 360 500 C480 500 570 560 570 720 Z" fill="url(#shirt)"/>
+  <path d="M318 470 L402 470 L398 520 Q360 545 322 520 Z" fill="#E9A07C"/>
+  <path d="M325 512 L360 560 L395 512" fill="none" stroke="#F6F3EE" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="360" cy="360" rx="112" ry="132" fill="#F2B48F"/>
+  <path d="M248 340 C240 250 300 212 362 214 C430 216 478 252 472 336 C462 300 440 284 410 280 C370 300 300 296 268 286 C256 300 250 318 248 340 Z" fill="#2A1D19"/>
+  <ellipse cx="318" cy="368" rx="11" ry="${11*blink}" fill="#1B1410"/>
+  <ellipse cx="402" cy="368" rx="11" ry="${11*blink}" fill="#1B1410"/>
+  <path d="M300 340 q18 -10 36 0" stroke="#2A1D19" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M384 340 q18 -10 36 0" stroke="#2A1D19" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <ellipse cx="360" cy="432" rx="${22+6*m}" ry="${4+14*m}" fill="#7A2E22"/>
+  <circle cx="290" cy="410" r="16" fill="#FF8A6A" opacity=".35"/><circle cx="430" cy="410" r="16" fill="#FF8A6A" opacity=".35"/>
+ </g>
+</g>`;
+</script></body></html>

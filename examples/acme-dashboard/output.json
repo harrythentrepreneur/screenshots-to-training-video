@@ -1,0 +1,9 @@
+{
+  "title": "How to create a project in Acme Dashboard",
+  "introduction": {"screenshot_id": "1", "text": "[SHOW: 1] Welcome to Acme Dashboard. In this short guide you'll create your first project and invite a teammate."},
+  "steps": [
+    {"screenshot_id": "2", "text": "[SHOW: 2] Once you're signed in, open Projects from the sidebar and click New Project in the top right."},
+    {"screenshot_id": "3", "text": "[SHOW: 3] Give the project a name your team will recognise, pick a template, and click Create project."}
+  ],
+  "conclusion": {"screenshot_id": "4", "text": "[SHOW: 4] Finally, invite a teammate by email, choose their role, and send the invite. That's it."}
+}
