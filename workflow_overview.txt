@@ -1,0 +1,70 @@
+StudioX Trainer - End-to-End Workflow (Updated)
+===============================================
+
+1. Input Preparation
+-------------------
+- You provide:
+  - A `context.txt` file (with title, goal, and detailed context for the guide) in `data/input/context.txt`.
+  - A folder of PNG screenshots (named as numbers, e.g., `1.png`, `2.png`, ...) in `data/input/screenshots/`.
+  - Optionally, you can provide timestamps for screenshots to control their order in the final video.
+
+2. Script Generation Phase
+-------------------------
+- Validation:
+  The system checks that `context.txt` and the screenshots folder exist and contain valid data.
+- Context Loading:
+  The context file is parsed into title, goal, and detailed context.
+- Screenshot Analysis:
+  Screenshots are analyzed using an AI vision model (OpenAIAnalyzer) to extract meaningful descriptions and context.
+- Content Processing:
+  Screenshots are grouped, and their flow is analyzed to determine logical steps.
+  - If timestamps are provided, screenshots are ordered by their timestamps (earliest first).
+  - If no timestamps are provided, screenshots are ordered by their numeric IDs.
+- Script Generation:
+  Using the context and analyzed screenshots, a detailed script is generated (introduction, steps, conclusion) using Gemini 2.5 Pro (`gemini-2.5-pro-preview-03-25`).
+- Output:
+  - The script is saved as `data/middleware/output.txt` (plain text).
+  - All metadata (timings, screenshot mapping, etc.) is saved as `data/middleware/output.json`.
+  - A `data/middleware/TIMING.txt` file is created, with each line indicating exactly when a screenshot should appear in the narration.
+
+3. HeyGen Video Generation
+-------------------------
+- Script to Video:
+  The script in `data/middleware/output.txt` is sent to the HeyGen API, which generates a video with an AI avatar reading the script.
+- Status Monitoring:
+  The system polls the HeyGen API, logging the video's status (`pending`, `processing`, `completed`, etc.) until the video is ready.
+- Download:
+  Once complete, the generated video (e.g., `data/output/generated_video.mp4`) is downloaded for further processing.
+
+4. Final Video Processing
+------------------------
+- Speech Analysis:
+  The audio from the HeyGen video is transcribed to generate word-level timestamps.
+- Screenshot Timing:
+  The system uses `data/middleware/TIMING.txt` to precisely match each screenshot to the correct moment in the narration.
+- Video Composition:
+  The `VideoProcessor`:
+  - Overlays the screenshots onto the video at the right times, using the timing from `TIMING.txt` and mapping from `output.json`.
+  - Uses FFmpeg to combine the video, screenshots, and audio into a polished, final video (e.g., `data/output/processed_video.mp4`).
+  - Overlays a circular-cropped avatar in the bottom right using a mask (`data/middleware/circle_mask.png`).
+- Output:
+  The final, fully composed video is saved and ready for use in `data/output/processed_video.mp4`.
+
+5. Logging and Error Handling
+----------------------------
+- At every step, detailed logs are produced (input validation, script generation, HeyGen status, video processing).
+- If any step fails, errors are logged and the process stops, so you know exactly where to look.
+
+Summary Table (Updated)
+=======================
+
+| Step                | Input(s)                        | Output(s)                        | Tool/Processor         |
+|---------------------|----------------------------------|-----------------------------------|------------------------|
+| Input Validation    | context.txt, imgs, timestamps    | -                                 | ScriptGenProcessor     |
+| Script Generation   | context, imgs, timestamps        | output.txt, output.json, TIMING.txt | ScriptGenProcessor     |
+| HeyGen Video Gen    | output.txt                       | generated_video.mp4               | HeyGenProcessor        |
+| Speech Analysis     | generated_video                  | timestamps                        | SpeechProcessor        |
+| Video Processing    | video, json, imgs, mask, timing  | processed_video.mp4               | VideoProcessor         |
+
+In short:
+You provide context and screenshots (optionally with timestamps) → the system generates a script → HeyGen creates a narrated video → the system overlays screenshots at the right times (using TIMING.txt) → you get a polished, final training video with a circular avatar overlay. 

@@ -1,0 +1,3 @@
+How to create a project in Acme Dashboard
+Show a new team member how to create their first project.
+The guide walks through signing in, opening the Projects page, clicking New Project, naming it, and inviting a teammate.
